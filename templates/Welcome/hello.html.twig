@@ -2,4 +2,13 @@
 
 {% block body %}
     <h1>Hello {{ name }}</h1>
+
+    <ul>
+        <li>
+            <a href="{{ path('hello') }}">Nicolas</a>
+        </li>
+        <li>
+            <a href="{{ path('hello', { 'fiorella' }) }}">fiorella</a>
+        </li>
+    </ul>
 {% endblock %}
