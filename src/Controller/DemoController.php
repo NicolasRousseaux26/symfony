@@ -6,6 +6,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DemoController extends AbstractController
@@ -61,5 +62,34 @@ class DemoController extends AbstractController
         $logger->info($ip. 'a vue l\'evenement '.$slug); 
 
         return new Response('<body>'.$slug.'</body>');
+    }
+
+    /**
+     * on va crée deux nouvelle route 
+     * /voir session : affiche le contenue de la cle 'name' dans la session 
+     *                  n'affiche rien lors de la premiére visite sur le sit 
+     * /mettre en session/name : mettre en session la valeur passer dans l'url 
+     */
+
+    /**
+    * @Route("/voir-session", name="show_session")
+    */
+
+    public function showSession(SessionInterface $session) 
+    {
+        dump($session->get('name'));
+
+        return $this->render('demo/show_session.html.twig');
+    }
+
+    /**
+    * @Route("/mettre-en-session/{name}", name="put_session")
+    */
+    public function putSession($name, SessionInterface $session) 
+    {
+        // je met $name en session 
+        $session->set('name', $name); // equivaut a $_session['name'] = $name;
+
+        return $this->redirectToRoute('show_session');
     }
 }
