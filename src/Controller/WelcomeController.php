@@ -1,14 +1,12 @@
-<?php 
+<?php
 
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WelcomeController extends AbstractController
-{
-   
+{   
     /**
      * @Route("/hello", name="hello")
      */
@@ -38,9 +36,20 @@ class WelcomeController extends AbstractController
         ]);
     }
   */
-    public function hello($name = 'nicolas')
+      /**
+     * @Route(
+     *    "/hello/{name}",
+     *    name="hello",
+     *    requirements={"name"="[a-z]{3,8}"}
+     * )
+     *
+     * Mon commentaire.
+     */
+    public function hello($name = 'Matthieu')
     {
-        //dump($name);
+        // $name = 'Matthieu';
+
+        dump($name);
 
         return $this->render('welcome/hello.html.twig', [
             'name' => ucfirst($name),
