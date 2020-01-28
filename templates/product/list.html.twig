@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produit - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 mb-5">
+      <h1 class="text-center mb-5">Nos produits</h1>
+        <div>               
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+            {% for product in products %} 
+                <tbody>
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{ product.prix }} €</td>
+                        <td><a href="{{ path('product_show', {slug: product.slug}) }}" class="btn btn-secondary">Voir le produit</a></td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+            </table>          
+        </div>
+    </div>   
+{% endblock %}
