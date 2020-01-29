@@ -5,6 +5,10 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\HttpFoundation\Request;
+use App\Model\Product;
 
 class ProductController extends AbstractController 
 {
@@ -52,9 +56,30 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/create", name="product_create")
      */
-    public function create()
+    public function create(Request $request)
     {
-        return $this->render('product/create.html.twig');
+        $product = new Product();
+
+        $form = $this->createFormBuilder($product)
+            ->add('name', TextType::class)
+            ->add('description', TextareaType::class)
+            ->getForm();
+        
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() et $product sont identiques
+            dump($product);
+            dump($product === $form->getData());
+            // Exécute la logique de notre application, BDD, ...
+
+            // return $this->redirectToRoute('product_list');
+        }
+
+
+        return $this->render('product/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -81,6 +106,16 @@ class ProductController extends AbstractController
 
         // Apres avoir parcouru le tableau si aucun produit ne correspond on affiche une 404 
         throw $this->createNotFoundException('Le produit n\'existe pas.');
+    }
+
+    /**
+     * @route("product/order/{slug}", name="product_order")
+     */
+    public function order($slug)
+    {
+        $this->addFlash('success', 'nous avons bien pris en compte votre commende de '.$slug);
+
+        return $this->redirectToRoute('product_list');
     }
 
 }

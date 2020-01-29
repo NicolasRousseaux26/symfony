@@ -37,6 +37,14 @@
             {% endblock %}
         </div>
 
+        <div class="container mt-5 mb-5">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+
         <div>
             {% block body %}{% endblock %}
         </div>
