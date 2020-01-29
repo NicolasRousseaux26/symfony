@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,11 +61,14 @@ class ProductController extends AbstractController
     {
         $product = new Product();
 
+        $form = $this->createForm(ProductType::class, $product);
+
+        /*
         $form = $this->createFormBuilder($product)
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('name', TextType::class)                          //plus besoin renplacer par ProductType.php 
+            ->add('description', TextareaType::class)               // cette parti aurais du etre appeler plusieur fois sinon
             ->getForm();
-        
+        */
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
